@@ -24,6 +24,14 @@ const d$todo = defineStore({
                 throw e;
             }
         },
+        async a$update(body, id) {
+            try {
+              await s$todo.update(body, id);
+            } catch (e) {
+              console.error('action update error', e);
+              throw e;
+            }
+        },
         async a$del(id) {
             try {
                 await s$todo.del(id);
