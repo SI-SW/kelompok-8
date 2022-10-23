@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { setCookies, certCookies } from "@/plugins/cookies";
+import { setCookies, certCookies, delCookies } from "@/plugins/cookies";
 import * as s$auth from '@/services/auth';
 
 const d$auth = defineStore({
@@ -32,6 +32,30 @@ const d$auth = defineStore({
                 return true;
             }   catch ({ error, message }) {
                 throw message ?? error;
+            }
+        },
+        async a$add(body) {
+            try {
+                await s$auth.add(body);
+            }   catch (e) {
+                console.error('actions add todo error', e);
+                throw e;
+            }
+        },
+        async a$logout() {
+            try {
+              delCookies("CERT");
+            } catch ({ error, message }) {
+              throw message ?? error;
+            }
+        },
+        async a$list() {
+            try {
+                const { data } = await s$auth.list();
+                this.list = data;
+            } catch (e) {
+                console.error('actions todo list error, e');
+                throw e;
             }
         },
     },
